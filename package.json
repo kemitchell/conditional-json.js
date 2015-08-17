@@ -1,0 +1,24 @@
+{
+  "name": "conditional-json",
+  "description": "render a JSON template with embedded boolean-json conditions",
+  "version": "0.0.0",
+  "author": "Kyle E. Mitchell <kyle@kemitchell.com> (https://kemitchell.com/)",
+  "dependencies": {
+    "boolean-json-eval": "~2.0.2",
+    "object-omit": "^1.0.0"
+  },
+  "devDependencies": {
+    "defence-cli": "~1.0.1",
+    "replace-require-self": "~1.0.0"
+  },
+  "keywords": [
+    "JSON",
+    "boolean",
+    "template"
+  ],
+  "license": "MIT",
+  "repository": "kemitchell/conditional-json.js",
+  "scripts": {
+    "test": "defence README.md | replace-require-self | node"
+  }
+}
