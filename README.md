@@ -69,13 +69,14 @@ assert.deepEqual(
           { number: '5556667777' } ] } })
 ```
 
-`$condition` is just the default key for conditions. You can use a different key, or provide conditions from outside the template itself. Pass a third function argument that takes one argument and returns `{ value: $value }` if there is no condition for including that argument in the template, or `{ condition: $condition, value: $value }` if there is.
+The key `$condition` and retention of objects without conditions are only defaults. You can use a different key, or provide conditions from outside the template itself. Pass a third function argument that takes one argument and returns `{ value: $value }` if there is no condition for including that argument in the template, or `{ condition: $condition, value: $value }` if there is.
 
 ```javascript
 assert.deepEqual(
   render(
     [ { $if: 'x', a: 1, b: 2 },
-      { $if: 'y', c: 3, d: 4 } ],
+      { $if: 'y', c: 3, d: 4 },
+      { e: 5, f: 6 } ],
     { x: true, y: false },
     function(argument) {
       if ('$if' in argument) {
@@ -85,7 +86,8 @@ assert.deepEqual(
           condition: condition,
           value: argument } }
       else {
-        return { value: argument } } }),
+        return { condition: {
+          and: [ 'x', { not: 'x' } ] } } } }),
   { retain: true,
     value: [ { a: 1, b: 2 } ] })
 ```
