@@ -1,11 +1,12 @@
 ```javascript
 var render = require('conditional-json')
-var assert = require('assert')
 ```
 
-`render` takes an object argument and returns `{ retain: false }` or `{ retain: true, value: $rendered }`.
+The package exports a function of one object argument. It returns `{ retain: false }` or `{ retain: true, value: $rendered }`.
 
 ```javascript
+var assert = require('assert')
+
 assert.deepEqual(
   render(
     [ { a: 1,
