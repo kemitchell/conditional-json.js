@@ -2,7 +2,7 @@
 var render = require('conditional-json')
 ```
 
-The package exports a function of one object argument. It returns `{ retain: false }` or `{ retain: true, value: $rendered }`.
+The package exports a function of one JSON-serializable argument. It returns `{ retain: false }` or `{ retain: true, value: $rendered }`.
 
 ```javascript
 var assert = require('assert')
