@@ -12,6 +12,23 @@ assert.deepEqual(
 
 assert.deepEqual(
   render(
+    [ { $if: 'x', a: 1, b: 2 },
+      { $if: 'y', c: 3, d: 4 } ],
+    { x: true, y: false },
+    function(argument) {
+      if ('$if' in argument) {
+        var condition = argument.$if
+        delete argument.$if
+        return {
+          condition: condition,
+          value: argument } }
+      else {
+        return { value: argument } } }),
+  { retain: true,
+    value: [ { a: 1, b: 2 } ] })
+
+assert.deepEqual(
+  render(
     { $condition: 'x', a: 1 },
     { x: false }),
   { retain: false })
