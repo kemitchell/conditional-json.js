@@ -1,6 +1,6 @@
 {
   "name": "conditional-json",
-  "description": "render a JSON template with embedded boolean-json conditions",
+  "description": "render JSON templates with embedded boolean-json conditions",
   "version": "0.0.0",
   "author": "Kyle E. Mitchell <kyle@kemitchell.com> (https://kemitchell.com/)",
   "dependencies": {
