@@ -1,7 +1,11 @@
 ```javascript
 var render = require('conditional-json')
 var assert = require('assert')
+```
 
+`render` takes an object argument and returns `{ retain: false }` or `{ retain: true, value: $rendered }`.
+
+```javascript
 assert.deepEqual(
   render(
     [ { $condition: 'x', a: 1, b: 2 },
@@ -12,35 +16,26 @@ assert.deepEqual(
 
 assert.deepEqual(
   render(
-    [ { $if: 'x', a: 1, b: 2 },
-      { $if: 'y', c: 3, d: 4 } ],
-    { x: true, y: false },
-    function(argument) {
-      if ('$if' in argument) {
-        var condition = argument.$if
-        delete argument.$if
-        return {
-          condition: condition,
-          value: argument } }
-      else {
-        return { value: argument } } }),
-  { retain: true,
-    value: [ { a: 1, b: 2 } ] })
-
-assert.deepEqual(
-  render(
-    { $condition: 'x', a: 1 },
-    { x: false }),
-  { retain: false })
-
-assert.deepEqual(
-  render(
     { a: { $condition: 'x', a: 1 },
       b: { $condition: { not: 'x' }, b: 2 } },
     { x: true }),
   { retain: true,
     value: { a: { a: 1 } } })
+```
 
+When no part of the template is retained, `render` returns `{ retain: false }`.
+
+```javascript
+assert.deepEqual(
+  render(
+    { $condition: 'x', a: 1 },
+    { x: false }),
+  { retain: false })
+```
+
+Templates can be arbitrarily deep. Conditions can be arbitrarily complex [boolean-json](https://npmjs.com/packages/boolean-json-schema) expressions.
+
+```javascript
 assert.deepEqual(
   render(
     { addresses: [
@@ -72,4 +67,25 @@ assert.deepEqual(
         phones: [
           { number: '5553334444' },
           { number: '5556667777' } ] } })
+```
+
+`$condition` is just the default key for conditions. You can use a different key, or provide conditions from outside the template itself. Pass a third function argument that takes one argument and returns `{ value: $value }` if there is no condition for including that argument in the template, or `{ condition: $condition, value: $value }` if there is.
+
+```javascript
+assert.deepEqual(
+  render(
+    [ { $if: 'x', a: 1, b: 2 },
+      { $if: 'y', c: 3, d: 4 } ],
+    { x: true, y: false },
+    function(argument) {
+      if ('$if' in argument) {
+        var condition = argument.$if
+        delete argument.$if
+        return {
+          condition: condition,
+          value: argument } }
+      else {
+        return { value: argument } } }),
+  { retain: true,
+    value: [ { a: 1, b: 2 } ] })
 ```
