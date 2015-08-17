@@ -8,19 +8,32 @@ var assert = require('assert')
 ```javascript
 assert.deepEqual(
   render(
-    [ { $condition: 'x', a: 1, b: 2 },
-      { $condition: 'y', c: 3, d: 4 } ],
-    { x: true, y: false }),
+    [ { a: 1,
+        b: 2,
+        $condition: 'x' },
+      { c: 3,
+        D: 4,
+        $condition: 'y' } ],
+    { x: true,
+      y: false }),
   { retain: true,
-    value: [ { a: 1, b: 2 } ] })
+    value: [
+      { a: 1,
+        b: 2 } ] })
 
 assert.deepEqual(
   render(
-    { a: { $condition: 'x', a: 1 },
-      b: { $condition: { not: 'x' }, b: 2 } },
+    { a: {
+        a: 1,
+        $condition: 'x' },
+      b: {
+        b: 2,
+        $condition: { not: 'x' } } },
     { x: true }),
   { retain: true,
-    value: { a: { a: 1 } } })
+    value: {
+      a: {
+        a: 1 } } })
 ```
 
 When no part of the template is retained, `render` returns `{ retain: false }`.
@@ -28,7 +41,8 @@ When no part of the template is retained, `render` returns `{ retain: false }`.
 ```javascript
 assert.deepEqual(
   render(
-    { $condition: 'x', a: 1 },
+    { a: 1,
+      $condition: 'x' },
     { x: false }),
   { retain: false })
 ```
@@ -74,10 +88,16 @@ The key `$condition` and retention of objects without conditions are only defaul
 ```javascript
 assert.deepEqual(
   render(
-    [ { $if: 'x', a: 1, b: 2 },
-      { $if: 'y', c: 3, d: 4 },
-      { e: 5, f: 6 } ],
-    { x: true, y: false },
+    [ { a: 1,
+        b: 2,
+        $if: 'x' },
+      { c: 3,
+        d: 4,
+        $if: 'y' },
+      { e: 5,
+        f: 6 } ],
+    { x: true,
+      y: false },
     function(argument) {
       if ('$if' in argument) {
         var condition = argument.$if
@@ -86,8 +106,13 @@ assert.deepEqual(
           condition: condition,
           value: argument } }
       else {
-        return { condition: {
-          and: [ 'x', { not: 'x' } ] } } } }),
+        return {
+          condition: {
+            and: [
+              'x',
+              { not: 'x' } ] } } } }),
   { retain: true,
-    value: [ { a: 1, b: 2 } ] })
+    value: [
+      { a: 1,
+        b: 2 } ] })
 ```
